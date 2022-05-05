@@ -1,0 +1,594 @@
+An Introduction to Problem-Solving using Search Algorithms for Beginners
+download
+Share
+crown iconDhanya Thailappan — October 11, 2021
+Algorithm Artificial Intelligence Beginner Guide Python
+This article was published as a part of the Data Science Blogathon
+
+Overview
+In computer science, problem-solving refers to artificial intelligence techniques, including various techniques such as forming efficient algorithms, heuristics, and performing root cause analysis to find desirable solutions.
+
+The basic crux of artificial intelligence is to solve problems just like humans.
+
+Examples of Problems in Artificial Intelligence
+In today’s fast-paced digitized world, artificial intelligence techniques are used widely to automate systems that can use the resource and time efficiently. Some of the well-known problems experienced in everyday life are games and puzzles. Using AI techniques, we can solve these problems efficiently. In this sense, some of the most common problems resolved by AI are
+
+Travelling Salesman Problem
+Tower of Hanoi Problem
+Water-Jug Problem
+N-Queen Problem
+Chess
+Sudoku
+Crypt-arithmetic Problems
+Magic Squares
+Logical Puzzles and so on.
+Table of Contents
+Problem Solving Techniques
+Properties of searching algorithms
+Types of search algorithms
+Uninformed search algorithms
+Comparison of various uninformed search algorithms
+Informed search algorithms
+Comparison of uninformed and informed search algorithms
+Problem Solving Techniques
+In artificial intelligence, problems can be solved by using searching algorithms, evolutionary computations, knowledge representations, etc.
+
+In this article, I am going to discuss the various searching techniques that are used to solve a problem.
+
+In general, searching is referred to as finding information one needs.
+
+The process of problem-solving using searching consists of the following steps.
+
+Define the problem
+Analyze the problem
+Identification of possible solutions
+Choosing the optimal solution
+Implementation
+Let’s discuss some of the essential properties of search algorithms.
+
+ 
+
+Properties of search algorithms
+Completeness
+A search algorithm is said to be complete when it gives a solution or returns any solution for a given random input.
+
+Optimality
+If a solution found is best (lowest path cost) among all the solutions identified, then that solution is said to be an optimal one.
+
+Time complexity
+The time taken by an algorithm to complete its task is called time complexity. If the algorithm completes a task in a lesser amount of time, then it is an efficient one.
+
+Space complexity
+It is the maximum storage or memory taken by the algorithm at any time while searching.
+
+These properties are
+also used to compare the efficiency of the different types of searching algorithms.
+
+ 
+
+Types of search algorithms
+Now let’s see the types of the search algorithm.
+
+Based on the search problems, we can classify the search algorithm as
+
+Uninformed search
+Informed search
+Uninformed search algorithms
+The uninformed search algorithm does not have any domain knowledge such
+as closeness, location of the goal state, etc. it behaves in a brute-force way.
+It only knows the information about how to traverse the given tree and how to
+find the goal state. This algorithm is also known as the Blind search algorithm
+or Brute -Force algorithm.
+
+The uninformed search strategies are of six types.
+
+They are-
+
+Breadth-first search
+Depth-first search
+Depth-limited search
+Iterative deepening depth-first search
+Bidirectional search
+Uniform cost search
+Let’s discuss these six strategies one by one.
+
+1. Breadth-first search
+It is of the most common search strategies. It generally starts from the root node and examines the neighbor nodes and then moves to the next level. It uses First-in First-out (FIFO) strategy as it gives the shortest path to achieving the solution.
+
+BFS is used where the given problem is very small and space complexity is not considered.
+
+Now, consider the following tree.
+
+Breadth-First search | Problem-Solving using AI
+Source: Author
+
+Here, let’s take node A as the start state and node F as the goal state.
+
+The BFS algorithm starts with the start state and then goes to the next level and visits the node until it reaches the goal state.
+
+In this example, it starts from A and then travel to the next level and visits B and C and then
+travel to the next level and visits D, E, F and G. Here, the goal state is defined as F. So, the traversal will stop at F.
+
+Traversal in BFS
+The path of traversal is:
+
+A —-> B —-> C —-> D —-> E —-> F
+
+Let’s implement the same in python programming.
+
+graph = {
+ 'A' : ['B','C'],
+ 'B' : ['D', 'E'],
+ 'C' : ['F', 'G'],
+ 'D' : [],
+ 'E' : [],
+ 'F' : [],
+ 'G' : []
+}
+visited = [] 
+queue = []
+goal = 'F'
+def bfs(visited, graph, node):
+    visited.append(node)
+    queue.append(node)
+    while queue:
+        s = queue.pop(0) 
+        print (s, end = "n") 
+        for neighbour in graph[s]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                queue.append(neighbour)
+                if goal in visited:
+                    break
+bfs(visited, graph, 'A')
+The output path
+generated is as follows.
+
+Output Snippet 
+Advantages of BFS
+
+BFS will never be trapped in any unwanted nodes.
+If the graph has more than one solution, then BFS will return the optimal solution which provides the shortest path.
+Disadvantages of BFS
+
+BFS stores all the nodes in the current level and then go to the next level. It requires a lot of memory to store the nodes.
+BFS takes more time
+to reach the goal state which is far away.
+ 
+2. Depth-first search
+The depth-first search uses Last-in, First-out (LIFO) strategy and hence it can be implemented by using stack. DFS uses backtracking. That is, it starts from the initial state and explores each path to its greatest depth before it moves to the next path.
+
+DFS will follow
+
+Root node —-> Left node —-> Right node
+
+Now, consider the same example tree mentioned above.
+
+Here, it starts from the start state A and then travels to B and then it goes to D. After reaching
+D, it backtracks to B. B is already visited, hence it goes to the next depth E and then backtracks to B. as it is already visited, it goes back to A. A is already visited. So, it goes to C and then to F. F is our goal state and it stops there.
+
+DFS Example | Problem-Solving using AI
+The path of traversal is:
+
+A —-> B —-> D —-> E —-> C —-> F
+
+Let’s try to code it.
+graph = {
+ 'A' : ['B','C'],
+ 'B' : ['D', 'E'],
+ 'C' : ['F', 'G'],
+ 'D' : [],
+ 'E' : [],
+ 'F' : [],
+ 'G' : []
+}
+goal = 'F'
+visited = set() 
+def dfs(visited, graph, node):
+    if node not in visited:
+        print (node)
+        visited.add(node)
+        for neighbour in graph[node]:
+            if goal in visited:
+                break
+            else:
+                dfs(visited, graph, neighbour)
+dfs(visited, graph, 'A')
+The output path is as follows.
+
+Output Snippet
+Advantages of DFS
+
+It takes lesser memory as compared to BFS.
+The time complexity is lesser when compared to BFS.
+DFS does not require much more search.
+Disadvantages of DFS
+
+DFS does not always guarantee to give a solution.
+As DFS goes deep down, it may get trapped in an infinite loop.
+ 
+
+3. Depth-limited search
+Depth-limited works similarly to depth-first search. The difference here is that depth-limited search has a pre-defined limit up to which it can traverse the nodes. Depth-limited search solves one of the drawbacks of DFS as it does not go to an infinite path.
+
+DLS ends its traversal if any of the following conditions exits.
+
+Standard Failure
+
+It denotes that the given problem does not have any solutions.
+
+Cut off Failure Value
+
+It indicates that there is no solution for the problem within the given limit.
+
+Now, consider the same example.
+
+Let’s take A as the start node and C as the goal state and limit as 1.
+
+The traversal first starts with node A and then goes to the next level 1 and the goal state C is there. It stops the traversal.
+
+Depth-limited search example | Problem-Solving using AI
+The path of traversal is:
+
+A —-> C
+
+If we give C as the goal node and the limit as 0, the algorithm will not return any path as the goal node is not available within the given limit.
+
+If we give the goal node as F and limit as 2, the path will be A, C, F.
+
+Let’s implement DLS.
+
+graph = {
+ 'A' : ['B','C'],
+ 'B' : ['D', 'E'],
+ 'C' : ['F', 'G'],
+ 'D' : [],
+ 'E' : [],
+ 'F' : [],
+ 'G' : []
+}
+def DLS(start,goal,path,level,maxD):
+    print('nCurrent level-->',level)
+    path.append(start)
+    if start == goal:
+        print("Goal test successful")
+        return path
+    print('Goal node testing failed')
+    if level==maxD:
+        return False
+    print('nExpanding the current node',start)
+    for child in graph[start]:
+        if DLS(child,goal,path,level+1,maxD):
+            return path
+        path.pop()
+    return False
+start = 'A'
+goal = input('Enter the goal node:-')
+maxD = int(input("Enter the maximum depth limit:-"))
+print()
+path = list()
+res = DLS(start,goal,path,0,maxD)
+if(res):
+    print("Path to goal node available")
+    print("Path",path)
+else:
+    print("No path available for the goal node in given depth limit")
+When we give C as
+goal node and 1 as limit the path will be as follows.
+
+
+Advantages of DLS
+
+It takes lesser memory when compared to other search techniques.
+Disadvantages of DLS
+
+DLS may not offer an optimal solution if the problem has more than one solution.
+DLS also encounters incompleteness.
+ 
+
+4. Iterative deepening depth-first search
+Iterative deepening depth-first search is a combination of depth-first search and breadth-first search. IDDFS find the best depth limit by gradually adding the limit until the defined goal state is reached.
+
+Let me try to explain this with the same example tree.
+
+Consider, A as the start node and E as the goal node. Let the maximum depth be 2.
+
+The algorithm starts
+with A and goes to the next level and searches for E. If not found, it goes to
+the next level and finds E.
+
+Iterative deepening depth-first search example
+The path of traversal is
+
+A —-> B —-> E
+
+Let’s try to implement this.
+
+graph = {
+ 'A' : ['B','C'],
+ 'B' : ['D', 'E'],
+ 'C' : ['F', 'G'],
+ 'D' : [],
+ 'E' : [],
+ 'F' : [],
+ 'G' : []
+}
+path = list()
+def DFS(currentNode,destination,graph,maxDepth,curList):
+    curList.append(currentNode)
+    if currentNode==destination:
+        return True
+    if maxDepth<=0:
+        path.append(curList)
+        return False
+    for node in graph[currentNode]:
+        if DFS(node,destination,graph,maxDepth-1,curList):
+            return True
+        else:
+            curList.pop()
+    return False
+def iterativeDDFS(currentNode,destination,graph,maxDepth):
+    for i in range(maxDepth):
+        curList = list()
+        if DFS(currentNode,destination,graph,i,curList):
+            return True
+    return False
+if not iterativeDDFS('A','E',graph,3):
+    print("Path is not available")
+else:
+    print("Path exists")
+    print(path.pop())
+The path generated is
+as follows.
+
+Output snippet
+Advantages of IDDFS
+
+IDDFS has the advantages of both BFS and DFS.
+It offers fast search and uses memory efficiently.
+Disadvantages of IDDFS
+
+It does all the works
+of the previous stage again and again.
+ 
+
+5. Bidirectional search
+The bidirectional search algorithm is completely different from all other search strategies. It executes two simultaneous searches called forward-search and backwards-search and reaches the goal state. Here, the graph is divided into two smaller sub-graphs. In one graph, the search is started from the initial start state and in the other graph, the search is started from the goal state. When these two nodes intersect each other, the search will be terminated.
+
+Bidirectional search requires both start and goal start to be well defined and the branching factor to be the same in the two directions.
+
+Consider the below graph.
+
+Bidirectional Search Example | Problem-Solving using AI
+Here, the start state is E and the goal state is G. In one sub-graph, the search starts from E and in the other, the search starts from G. E will go to B and then A. G will go to C and then A. Here, both the traversal meets at A
+and hence the traversal ends.
+
+Bidirectional Search example | Problem-Solving using AI
+The path of traversal is
+
+E —-> B —-> A —-> C —-> G
+
+Let’s implement the same in Python.
+
+from collections import deque
+class Node:
+    def __init__(self, val, neighbors=[]):
+        self.val = val
+        self.neighbors = neighbors
+        self.visited_right = False  
+        self.visited_left = False  
+        self.parent_right = None  
+        self.parent_left = None  
+def bidirectional_search(s, t):
+    def extract_path(node):
+        node_copy = node
+        path = []
+        while node:
+            path.append(node.val)
+            node = node.parent_right
+        path.reverse()
+        del path[-1]  
+        while node_copy:
+            path.append(node_copy.val)
+            node_copy = node_copy.parent_left
+        return path
+    q = deque([])
+    q.append(s)
+    q.append(t)
+    s.visited_right = True
+    t.visited_left = True
+    while len(q) > 0:
+        n = q.pop()
+        if n.visited_left and n.visited_right:  
+            return extract_path(n)
+        for node in n.neighbors:
+            if n.visited_left == True and not node.visited_left:
+                node.parent_left = n
+                node.visited_left = True
+                q.append(node)
+            if n.visited_right == True and not node.visited_right:
+                node.parent_right = n
+                node.visited_right = True
+                q.append(node)
+    return False
+n0 = Node('A')
+n1 = Node('B')
+n2 = Node('C')
+n3 = Node('D')
+n4 = Node('E')
+n5 = Node('F')
+n6 = Node('G')
+n0.neighbors = []
+n1.neighbors = [n0]
+n2.neighbors = [n0]
+n3.neighbors = [n1]
+n4.neighbors = [n1]
+n5.neighbors = [n2]
+n6.neighbors = [n2]
+print(bidirectional_search(n4, n6))
+The path is generated
+as follows.
+
+Output snippet
+Advantages of bidirectional search
+
+This algorithm searches the graph fast.
+It requires less memory to complete its action.
+Disadvantages of bidirectional search
+
+The goal state should be pre-defined.
+The graph is quite
+difficult to implement.
+ 
+
+6. Uniform cost search
+Uniform cost search is considered the best search algorithm for a weighted graph or graph with costs. It searches the graph by giving maximum priority to the lowest cumulative cost. Uniform cost search can be implemented using a priority queue.
+
+Consider the below
+graph where each node has a pre-defined cost.
+
+Uniform Cost Search example | Problem-Solving using AI
+Here, S is the start node and G is the goal node.
+
+From S, G can be reached in the following ways.
+
+S, A, E, F, G -> 19
+
+S, B, E, F, G -> 18
+
+S, B, D, F, G -> 19
+
+S, C, D, F, G -> 23
+
+Here, the path with the least cost is S, B, E, F, G.
+
+Uniform cost search example | Problem-Solving using AI
+Let’s implement UCS in Python.
+
+graph=[['S','A',6],
+       ['S','B',5],
+       ['S','C',10],
+       ['A','E',6],
+       ['B','E',6],
+       ['B','D',7],
+       ['C','D',6],
+       ['E','F',6],
+       ['D','F',6],
+       ['F','G',1]]
+temp = []
+temp1 = []
+for i in graph:
+  temp.append(i[0])
+  temp1.append(i[1])
+nodes = set(temp).union(set(temp1))
+def UCS(graph, costs, open, closed, cur_node):
+  if cur_node in open:
+    open.remove(cur_node)
+  closed.add(cur_node)
+  for i in graph:
+    if(i[0] == cur_node and costs[i[0]]+i[2] < costs[i[1]]):
+      open.add(i[1])
+      costs[i[1]] = costs[i[0]]+i[2]
+      path[i[1]] = path[i[0]] + ' -> ' + i[1]
+  costs[cur_node] = 999999
+  small = min(costs, key=costs.get)
+  if small not in closed:
+    UCS(graph, costs, open,closed, small)
+costs = dict()
+temp_cost = dict()
+path = dict()
+for i in nodes:
+  costs[i] = 999999
+  path[i] = ' '
+open = set()
+closed = set()
+start_node = input("Enter the Start State: ")
+open.add(start_node)
+path[start_node] = start_node
+costs[start_node] = 0
+UCS(graph, costs, open, closed, start_node)
+goal_node = input("Enter the Goal State: ")
+print("Path with least cost is: ",path[goal_node])
+The optimal output
+path is generated.
+
+Code Snippet
+Advantages of UCS
+
+This algorithm is optimal as the selection of paths is based on the lowest cost.
+Disadvantages of UCS
+
+The algorithm does
+not consider how many steps it goes to reach the lowest path. This may result in
+an infinite loop also.
+ 
+
+Comparison of various uninformed search algorithms
+Now, let me compare the six different uninformed search strategies based on the time complexity.
+
+Algorithm	Time	Space	Complete	Optimality
+Breadth First	O(b^d)	O(b^d)	Yes	Yes
+Depth First	O(b^m)	O(bm)	No	No
+Depth Limited	O(b^l)	O(bl)	No	No
+Iterative Deepening	O(b^d)	O(bd)	Yes	Yes
+Bidirectional	O(b^(d/2))	O(b^(d/2))	Yes	Yes
+Uniform Cost	O(bl+floor(C*/epsilon))	O(bl+floor9C*/epsilon))	Yes	Yes
+ 
+
+This is all about uninformed search algorithms.
+
+Let’s take a look at informed search algorithms.
+
+ 
+
+Informed search algorithms
+The informed search algorithm is also called heuristic search or directed search. In contrast to uninformed search algorithms, informed search algorithms require details such as distance to reach the goal, steps to reach the goal, cost of the paths which makes this algorithm more efficient.
+
+Here, the goal state can be achieved by using the heuristic function.
+
+The heuristic function is used to achieve the goal state with the lowest cost possible. This function estimates how close a state is to the goal.
+
+Let’s discuss some of the informed search strategies.
+
+ 
+
+1. Greedy best-first search algorithm
+Greedy best-first search uses the properties of both depth-first search and breadth-first search. Greedy best-first search traverses the node by selecting the path which appears best at the moment. The closest path is selected by using the heuristic function.
+
+Consider the below
+graph with the heuristic values.
+
+Greedy best-first search algorithm example | Problem-Solving using AI
+Here, A is the start node and H is the goal node.
+
+Greedy best-first search first starts with A and then examines the next neighbour B and C. Here, the heuristics of B is 12 and C is 4. The best path at the moment is C and hence it goes to C. From C, it explores the neighbours F and G. the heuristics of F is 8 and G is 2. Hence it goes to G. From G, it goes to H whose heuristic is 0 which is also our goal state.
+
+Path of traversal in Greedy best-first search algorithm | Problem-Solving using AI
+The path of traversal is
+
+A —-> C —-> G —-> H
+
+Let’s try this with Python.
+
+graph = {
+'A':[('B',12), ('C',4)],
+'B':[('D',7), ('E',3)],
+'C':[('F',8), ('G',2)],
+'D':[],
+'E':[('H',0)],
+'F':[('H',0)],
+'G':[('H',0)]
+}
+def bfs(start, target, graph, queue=[], visited=[]):
+    if start not in visited:
+        print(start)
+        visited.append(start)
+    queue=queue+[x for x in graph[start] if x[0][0] not in visited]
+    queue.sort(key=lambda x:x[1])
+    if queue[0][0]==target:
+        print(queue[0][0])
+    else:
+        processing=queue[0]
+        queue.remove(processing)
+        bfs(processing[0], target, graph, queue, visited)
+bfs('A', 'H', graph)
